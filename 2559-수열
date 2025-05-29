@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+
+using namespace std;
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int max = 0;
+    int result;
+    int n, m;
+    cin >> n >> m;
+    vector<int> arr(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    for (int i = 0; i < m; i++) {
+        max += arr[i];
+    }
+    result = max;
+
+    //cout << "result = " << result << '\n';
+
+    for (int i = 0; i < n - m; i++) {
+        result = result - arr[i];
+        result = result + arr[i + m];
+        if (result > max) {
+            max = result;
+        }
+    }
+    cout << max;
+
+ 
+    return 0;
+}
