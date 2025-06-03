@@ -1,1 +1,31 @@
-ㄴㅇㄹ
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+
+using namespace std;
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int result = 0;
+    int n;
+    cin >> n;
+
+    while (n > 0) {
+        if (n % 2 == 1) {
+            result++;
+        }
+        n = n / 2;
+    }
+
+    cout << result;
+ 
+    return 0;
+}
