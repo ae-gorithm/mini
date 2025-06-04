@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, a, b;
+    cin >> n;
+    
+    vector<pair<int, int>> arr;
+
+    for (int i = 0; i < n; i++) {
+        cin >> a >> b;
+        arr.push_back({ a,b });
+    }
+
+    int result = INT_MAX;
+
+    for (int i = 1; i < pow(2, n); i++) {
+        a = 1, b = 0;
+        for (int j = 0; j < n; j++) {
+            if (i & (1 << j)) {
+                a *= arr[j].first;
+                b += arr[j].second;
+            }
+        }
+        result = min(result, abs(a - b));
+    }
+
+    cout << result;
+
+
+
+    return 0;
+}
