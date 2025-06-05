@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+
+vector<int> arr[200001];
+int visited[100001] = { 0, };
+int result[100001] = { 0, };
+int cnt = 0;
+
+void dfs(int r) {
+    if (visited[r] == 1) {
+        return;
+    }
+    visited[r] = 1;
+    cnt++;
+    result[r] = cnt;
+
+    for (int i = 0; i < arr[r].size(); i++) {
+        dfs(arr[r][i]);
+    }
+    
+}
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m, r;
+    int a, b;
+    cin >> n >> m >> r;
+
+    for (int i = 1; i <= m; i++) {
+        cin >> a >> b;
+        arr[a].push_back(b);
+        arr[b].push_back(a);
+    }
+
+
+    for (int i = 1; i <= n; i++) {
+        sort(arr[i].begin(), arr[i].end());
+    }
+
+
+    dfs(r);
+
+    for (int i = 1; i <= n; i++) {
+        cout << result[i] << '\n';
+    }
+
+    return 0;
+}
