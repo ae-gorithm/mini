@@ -1,0 +1,75 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+#include <string.h>
+
+using namespace std;
+
+int arr[300][300] = { 0, };
+int visited[300][300] = { 0, };
+int dx[8] = { -2, -2, 2, 2, -1, -1, 1, 1};
+int dy[8] = { 1, -1, 1, -1, 2, -2, 2, -2};
+int n;
+
+int bfs(int startx, int starty, int endx, int endy) {
+    queue<pair<int, int>> q;
+    
+    q.push(make_pair(startx, starty));
+
+    visited[startx][starty] = 1;
+
+    while (!q.empty()) {
+        int x = q.front().first;
+        int y = q.front().second;
+
+        q.pop();
+
+        if (x == endx && y == endy) {
+            return arr[x][y];
+        }
+
+        for (int i = 0; i < 8; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (nx < 0 || nx >= n || ny < 0 || ny >= n) {
+                continue;
+            }
+            else if (visited[nx][ny] == 1) {
+                continue;
+            }
+            else {
+                visited[nx][ny] = 1;
+                q.push(make_pair(nx, ny));
+                arr[nx][ny] = arr[x][y] + 1;
+            }
+        }
+    }
+
+    return arr[endx][endy];
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int t;
+    cin >> t;
+    int startx, starty, endx, endy;
+
+    for (int q = 0; q < t; q++) {
+        cin >> n;
+        cin >> startx >> starty;
+        cin >> endx >> endy;
+        memset(visited, 0, sizeof(visited));
+        memset(arr, 0, sizeof(arr));
+        cout << bfs(startx, starty, endx, endy) << '\n';
+    }
+
+    return 0;
+}
