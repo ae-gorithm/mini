@@ -1,0 +1,85 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+#include <string.h>
+
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int n, k;
+    int t;
+    int dura, robot;
+    int cnt = 0;
+    int step = 0;
+
+    cin >> n >> k;
+    vector <pair<int, int>> belt(2 * n);
+    
+    for (int i = 0; i < 2 * n; i++) {
+        cin >> t;
+        belt[i] = make_pair(t, 0);
+    }
+
+    while (1) {
+        step++;
+        //벨트 회전
+
+        dura = belt[2 * n - 1].first;
+        robot = belt[2 * n - 1].second;
+        for (int i = 2 * n - 1; i > 0; i--) {
+            belt[i] = belt[i - 1];
+        }
+        belt[0].second = robot;
+        belt[0].first = dura;
+
+        if (belt[n - 1].second == 1) {
+            belt[n - 1].second = 0;
+        }
+
+        //로봇 이동
+
+
+        
+        for (int i = n - 2; i >= 0; i--) {
+            if (belt[i].second == 1 && belt[i + 1].second == 0 && belt[i + 1].first > 0) {
+                belt[i].second = 0;
+                belt[i + 1].second = 1;
+                belt[i + 1].first--;
+                if (belt[i + 1].first == 0) {
+                    cnt++;
+                }
+            }
+        }
+
+        if (belt[n - 1].second == 1) {
+            belt[n - 1].second = 0;
+        }
+
+        //로봇 올리기
+
+        if (belt[0].first > 0 && belt[0].second == 0) {
+            belt[0].second = 1;
+            belt[0].first--;
+            if (belt[0].first == 0) {
+                cnt++;
+            }
+        }
+
+        if (cnt >= k) {
+            break;
+        }
+
+    }
+
+    cout << step;
+    return 0;
+}
