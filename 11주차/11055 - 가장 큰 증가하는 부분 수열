@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int n;
+    cin >> n;
+    vector<int> arr(n + 1);
+    vector<int> dp(n + 1);
+
+    
+
+    for (int i = 1; i <= n; i++) {
+        cin >> arr[i];
+        dp[i] = arr[i];
+    }
+    int flag = arr[0];
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j < i; j++) {
+            if (arr[i] > arr[j]) {
+                dp[i] = max(dp[i], arr[i] + dp[j]);
+                flag = max(flag, dp[i]);
+            }
+        }
+    }
+    /*for (int i = 1; i <= n; i++) {
+        cout << dp[i] << ' ';
+    }*/
+
+    sort(dp.begin(), dp.end());
+    cout << dp[n];
+
+    return 0;
+}
