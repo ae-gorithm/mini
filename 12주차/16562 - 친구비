@@ -1,0 +1,68 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+map<int, int>price;
+vector<int> v[10001];
+int n, m, k;
+vector<int> result(10001);
+int visited[10001] = { 0, };
+int min_pay = INT_MAX;
+
+void dfs(int start) {
+    visited[start] = 1;
+
+    if (price[start] < min_pay) {
+        min_pay = price[start];
+    }
+
+    for (int i = 0; i < v[start].size(); i++) {
+        int next = v[start][i];
+        if (visited[next] == 0) {
+            dfs(next);
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+   
+    cin >> n >> m >> k;
+    int a, b, c;
+    int total = 0;
+
+    for (int i = 0; i < n; i++) {
+        cin >> c;
+        price[i + 1] = c;
+    }
+
+    for (int i = 0; i < m; i++) {
+        cin >> a >> b;
+        v[a].push_back(b);
+        v[b].push_back(a);
+    }
+
+    for (int i = 1; i <= n; i++) {
+        if (!visited[i]) {
+            min_pay = INT_MAX;
+            dfs(i);
+            total += min_pay;
+        }
+    }
+
+    if (total > k) {
+        cout << "Oh no";
+    }
+    else {
+        cout << total;
+    }
+    return 0;
+}
