@@ -1,0 +1,127 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+int room[22][22] = { 0, };
+int f[4];
+int dy[4] = { -1,0,0,1 };
+int dx[4] = { 0,-1,1,0 };
+vector<int> arr[2000];
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    cin >> n;
+    int result = 0;
+    int good = 0;
+    for (int t = 0; t < n * n; t++) {
+        int s;
+        cin >> s;
+        for (int i = 0; i < 4; i++) {
+            cin >> f[i];
+            arr[s].push_back(f[i]);
+        }
+        if (t == 0) {
+            room[1][1] = s;
+        }
+        else {
+            int insert_i;
+            int insert_j;
+            int max = -1;
+            int zmax = -1;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    int cnt = 0;
+                    int zcnt = 0;
+                    if (room[i][j] != 0) {
+                        continue;
+                    }
+                    for (int k = 0; k < 4; k++) {
+                        int ny = i + dy[k];
+                        int nx = j + dx[k];
+                        if (ny >= 0 && nx >= 0 && ny < n && nx < n) {
+                            if (room[ny][nx] != 0) {
+                                for (int w = 0; w < 4; w++) {
+                                    if (f[w] == room[ny][nx]) {
+                                        cnt++;
+                                    }
+                                }
+                            }
+                            if (room[ny][nx] == 0) {
+                                zcnt++;
+                            }
+                        }
+
+                        if (cnt > max) {
+                            max = cnt;
+                            insert_i = i;
+                            insert_j = j;
+                            zmax = zcnt;
+                        }
+                        else if (cnt == max) {
+                            if (zcnt > zmax) {
+                                zmax = zcnt;
+                                insert_i = i;
+                                insert_j = j;
+                            }
+                        }
+                    }
+                }
+            }
+            room[insert_i][insert_j] = s;
+        }
+    }
+
+    //for (int i = 0; i < n; i++) {
+    //    for (int j = 0; j < n; j++) {
+    //        cout << room[i][j] << ' ';
+    //    }
+    //    cout << '\n';
+    //}
+
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            result = 0;
+            int tmp = room[i][j];
+            for (int k = 0; k < 4; k++) {
+                int nx = j + dx[k];
+                int ny = i + dy[k];
+                if (nx >= 0 && ny >= 0 && nx < n && ny < n) {
+                    for (int w = 0; w < 4; w++) {
+                        if (arr[tmp][w] == room[ny][nx]) {
+                            result++;
+                        }
+                    }
+                }
+            }
+            if (result == 0) {
+                good += 0;
+            }
+            else if (result == 1) {
+                good += 1;
+            }
+            else if (result == 2) {
+                good += 10;
+            }
+            else if (result == 3) {
+                good += 100;
+            }
+            else if (result == 4) {
+                good += 1000;
+            }
+        }
+    }
+    
+    cout << good;
+
+    return 0;
+}
