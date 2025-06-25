@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+
+int dp[1001] = { 0, };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int n;
+    cin >> n;
+    vector<pair<int, int>> arr(n + 1);
+
+    for (int i = 1; i <= n; i++) {
+        cin >> arr[i].second >> arr[i].first;
+    }
+
+    sort(arr.begin(), arr.end());
+
+    //for (int i = 1; i <= n; i++) {
+    //    cout << arr[i].first << ' ' << arr[i].second << '\n';
+    //}
+
+    int len = 0;
+
+    for (int i = n; i >= 1; i--) {
+        int day = arr[i].second;
+        int point = arr[i].first;
+
+        for (int j = day; j > 0; j--) { // 과제는 하루에 한개만 가능
+            // 기한 4일짜리 과제는 1 ~ 4일 사이에 언제든지 해도 됨
+            if (dp[j] == 0) {
+                dp[j] = point;
+                break;
+            }
+        }
+
+    }
+    int result = 0;
+
+    for (int i = 1; i <= 1001; i++) {
+        result += dp[i];
+    }
+
+    cout << result;
+    return 0;
+}
