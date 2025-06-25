@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+int prime[1300000] = { 0, };
+int check[1300000] = { 0, };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    
+    int n;
+
+    for (int i = 2; i <= 1000001; i++) {
+        prime[i] = i;
+    }
+
+    for (int i = 2; i <= 1000001; i++) {
+        if (prime[i] == 0) {
+            continue;
+        }
+        else {
+            for (int j = 2 * i; j <= 1000001; j += i) {
+                prime[j] = 0;
+            }
+        }
+    }
+
+    //for (int i = 0; i < 50; i++) {
+    //    cout << prime[i] << ' ';
+    //}
+
+    while (1) {
+        cin >> n;
+        if (n == 0) {
+            break;
+        }
+
+        int b = -1;
+        int a = -1;
+
+        for (int i = n; i >= 2; i--) {
+            if (prime[i] == 0) {
+                continue;
+            }
+            else if (prime[i] != 0) {
+                b = n - i;
+                if (prime[b] != 0 && b >= 2) {
+                    a = i;
+                    break;
+                }
+            }
+        }
+        if (a != -1) {
+            cout << n << " = " << b << " + " << a << '\n';
+        }
+        else if (a == -1) {
+            cout << "Goldbach's conjecture is wrong.\n";
+        }
+    }
+
+    return 0;
+}
