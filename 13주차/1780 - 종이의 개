@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+int n;
+int arr[3000][3000];
+int plus_cnt = 0, minus_cnt = 0, zero_cnt = 0;
+
+void dfs(int y, int x, int n) {
+    int flag = 1;
+    int num = arr[y][x];
+
+    for (int i = y; i < y + n; i++) {
+        for (int j = x; j < x + n; j++) {
+            if (arr[i][j] != num) {
+                flag = 0;
+            }
+        }
+    }
+    if (flag == 1) {
+        if (num == -1) {
+            minus_cnt++;
+        }
+        else if (num == 0) {
+            zero_cnt++;
+        }
+        else if (num == 1) {
+            plus_cnt++;
+        }
+    }
+    else {
+        n = n / 3;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                dfs(n * i + y, n * j + x, n); // x와 y는 배열이 같지 않아 3분할 될 때 기존 시작 위치를 더해줌
+                // i와 j는 항상 0부터 시작하므로 다음 재귀의 전체 배열 중 탐색 시작 위치를 보정해줌
+            }
+        }
+    }
+
+}
+
+int main() {
+    cin >> n;
+    int k;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> k;
+            arr[i][j] = k;
+        }
+    }
+
+    dfs(0, 0, n);
+
+    cout << minus_cnt << '\n' << zero_cnt << '\n' << plus_cnt;
+
+    return 0;
+}
