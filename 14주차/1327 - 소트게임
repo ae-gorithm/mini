@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+int n, k;
+map<string, bool> visited;
+queue<pair<string, int>> q;
+
+int bfs(string str) {
+    q.push({ str, 0 });
+    string flag = str;
+    sort(flag.begin(), flag.end());
+
+    while (!q.empty()) {
+        string tmp = q.front().first;
+        int m = q.front().second;
+        q.pop();
+        if (tmp == flag) {
+            //cout << tmp << ' ' << flag << '\n';
+            return m;
+        }
+
+        if (visited.count(tmp) == false) {
+            visited[tmp] = true;
+            m++;
+            for (int i = 0; i <= n - k; i++) {
+                string part = tmp.substr(i, k);
+                reverse(part.begin(), part.end());
+                string s = tmp.substr(0, i) + part + tmp.substr(i + k, n - 1);
+                /*cout << tmp.substr(0, i) << ' ' << part << ' ' << tmp.substr(i + k, n - 1) << '\n';*/
+                q.push({ s,m });
+            }
+        }
+    }
+    return -1;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    
+    cin >> n >> k;
+    char c;
+    string s;
+    for (int i = 0; i < n; i++) {
+        cin >> c;
+        s += c;
+    }
+    int result = bfs(s);
+    cout << result;
+    return 0;
+}
