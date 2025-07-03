@@ -1,0 +1,73 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+int arr[1002] = { 0, };
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    
+    int n;
+    cin >> n;
+    int a, b;
+    int end = 0;
+    int start = 1001;
+    for (int i = 0; i < n; i++) {
+        cin >> a >> b;
+        if (a > end) {
+            end = a;
+        }
+        if (a < start) {
+            start = a;
+        }
+        arr[a] = b;
+    }
+    //cout << start << ' ' << end << '\n';
+
+    int maxheight = 0;
+    int maxheight_idx = 0;
+    int extent = 0;
+
+    for (int i = start; i <= end; i++) {
+        if (arr[i] > maxheight) {
+            maxheight = arr[i];
+            maxheight_idx = i;
+        }
+    }
+    
+    extent = maxheight;
+    int height = 0;
+
+    for (int i = 0; i < maxheight_idx; i++) {
+        if (arr[i] > height) {
+            height = arr[i];
+            extent += height;
+        }
+        else {
+            extent += height;
+        }
+    }
+    height = 0;
+    for (int i = end; i > maxheight_idx; i--) {
+        if (arr[i] > height) {
+            height = arr[i];
+            extent += height;
+        }
+        else {
+            extent += height;
+        }
+    }
+
+    cout << extent;
+
+    return 0;
+}
