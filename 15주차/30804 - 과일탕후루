@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int n, m;
+    cin >> n;
+    int cnt = 0;
+    int result = 0, len = 0;
+    vector<int>fruit(10);
+    queue<int> q;
+
+    for (int i = 0; i < 10; i++) {
+        fruit[i] = 0;
+    }
+
+    for (int i = 0; i < n; i++) {
+        cin >> m;
+        q.push(m);
+        if (fruit[m] == 0) {
+            cnt++;
+        }
+        fruit[m]++;
+        result++;
+
+        while (cnt > 2) {
+            int k = q.front();
+            fruit[k]--;
+            q.pop();
+            result--;
+            if (fruit[k] == 0) {
+                cnt--;
+            }
+        }
+        len = max(len, result);
+    }
+
+    cout << len;
+
+    return 0;
+}
