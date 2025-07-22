@@ -1,0 +1,92 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <map>
+#include <climits>
+
+using namespace std;
+
+int n, k, result = 0;
+vector<string> str;
+bool alpha[26];
+
+int read() {
+    int cnt = 0;
+    for (int i = 0; i < str.size(); i++) {
+        bool canRead = true;
+        for (int j = 0; j < str[i].size(); j++) {
+            char ch = str[i][j];
+            int tmp = ch - 'a';
+            if (alpha[tmp] == false) {
+                canRead = false;
+                break;
+            }
+        }
+        if (canRead == true) cnt++;
+    }
+    return cnt;
+}
+
+void dfs(int start, int depth) {
+    if (depth == k) {
+        result = max(result, read());
+        return;
+    }
+
+    for (int i = start; i < 26; i++) {
+        if (alpha[i] == false) {
+            alpha[i] = true;
+            dfs(i + 1, depth + 1);
+            alpha[i] = false;
+        }
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    cin >> n >> k;
+    string s;
+
+
+    for (int i = 0; i < n; i++) {
+        string s;
+        cin >> s;
+        s = s.substr(4, s.size() - 8);
+        str.push_back(s);
+    }
+
+    //for (int i = 0; i < n; i++) {
+    //    cout << str[i] << '\n';
+    //}
+
+    alpha[0] = true;
+    alpha[2] = true;
+    alpha[8] = true;
+    alpha[13] = true;
+    alpha[19] = true;
+
+
+    if (k < 5) {
+        cout << 0;
+        return 0;
+    }
+    else if (k >= 26) {
+        cout << n;
+        return 0;
+    }
+
+    k = k - 5;
+
+    dfs(0, 0);
+
+    cout << result;
+
+    return 0;
+}
